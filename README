@@ -1,1 +1,10 @@
+# Northwind Traders: Strategic Sales & Supply Chain Audit
 
+## Phase 1: Environment Setup & Data Integrity
+The goal of this phase was to establish a robust SQL environment and ensure data consistency across the Northwind schema.
+
+### Steps Taken:
+- **Database Engine:** MySQL 
+- **Schema Standardization:** Renamed tables to `snake_case` (e.g., `order_details`) for easier querying.
+- **Verification:** Confirmed 830 orders, 91 customers, and 77 products are correctly loaded.
+- **ERD Mapping:** Identified core relationships between Suppliers, Products, and Orders.
