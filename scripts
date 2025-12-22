@@ -1,1 +1,56 @@
-phase2_data_cleaning.sql
+## phase1_data_cleaning.sql
+
+-- Identifying data inconsistencies
+-- Audit 1: Find orders with impossible shipping dates
+
+SELECT OrderID, CustomerID, OrderDate, ShippedDate
+FROM orders
+WHERE ShippedDate < OrderDate;
+
+-- Check for financial anomaly (Revenue Leakage)
+-- Audit 2: Identify zero-price or negative quantity entries
+
+SELECT OrderID, ProductID, UnitPrice, Quantity
+FROM order_details
+WHERE UnitPrice <= 0 OR Quantity <= 0;
+
+-- Missing shipping information
+-- Audit 3: Count missing values in critical shipping columns
+
+SELECT 
+    COUNT(*) AS total_orders,
+    SUM(CASE WHEN ShipRegion IS NULL THEN 1 ELSE 0 END) AS missing_region,
+    SUM(CASE WHEN ShippedDate IS NULL THEN 1 ELSE 0 END) AS not_yet_shipped
+FROM orders;
+
+ -- Duplicate Check (Customer Records)
+-- Audit 4: Find potential duplicate customers based on Company Name
+
+SELECT CompanyName, COUNT(*)
+FROM customers
+GROUP BY CompanyName
+HAVING COUNT(*) > 1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
