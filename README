@@ -43,4 +43,56 @@ quadrantChart
 | **Dogs** | Grains/Cereals | Low Volume + Low AOV (< $550) | **Review:** Re-evaluate supplier contracts or consider bundling. |
 
 
+## Phase 3: Strategic Sales Analysis
+
+### 1. Product Category Performance
+**Question:** Which product categories are driving the most revenue?
+
+**Findings:**
+- **Beverages** and **Dairy Products** account for nearly 40% of total company revenue.
+- **Meat/Poultry** maintains the highest Average Order Value (AOV), indicating a high-margin premium segment.
+
+**Strategic Recommendation:**
+Increase inventory investment in high-turnover Beverages while launching a targeted "Premium Bundle" campaign for Meat/Poultry to capitalize on the high AOV.
+
+
+
+## Phase 4: Supply Chain Efficiency Audit
+
+### Logistics Performance by Category
+**Objective:** Identify if high-revenue categories are suffering from shipping delays.
+
+**Key Findings:**
+- **[Insert Category Name]** has the highest late shipping rate at **[Insert %]**.
+- Our "Cash Cow" (Beverages) has a late rate of **[Insert %]**, which is **[above/below]** the company average.
+
+**Strategic Impact:**
+Logistics bottlenecks in high-volume categories like Beverages suggest that our current shipping partners may be overwhelmed.
+To protect our primary revenue stream, we should consider renegotiating SLAs with shippers for these specific product lines.
+
+### 2. Supply Chain & Logistics Audit
+**Question:** Are our top-performing categories suffering from delivery delays?
+
+| Category | Late Rate | Business Priority | Audit Finding |
+| :--- | :--- | :--- | :--- |
+| **Grains/Cereals** | 6.04% | Low | Worst performance; operational bottleneck. |
+| **Dairy Products** | 5.94% | **CRITICAL** | High perishable risk; requires immediate logistics review. |
+| **Beverages** | 5.08% | **HIGH** | Affects the most customers; 18 orders delayed. |
+| **Confections** | 3.73% | Medium | **Best in Class;** analyze for internal best practices. |
+
+**Audit Conclusion:** There is a negative correlation between product value and shipping reliability in the Dairy category.
+We recommend a "Carrier Audit" for all Dairy and Beverage shipments to reduce the late rate to under 4%.
+
+
+
+## Executive Conclusion & Strategic Recommendations
+
+Based on the 2024 Northwind Strategic Audit, the following actions are recommended:
+
+1. **Immediate Logistics Intervention:** The **Dairy** category is at "Critical Risk" due to high revenue volume and a 5.9% late shipping rate for perishables.
+2. **Revenue Protection:** **Beverages** should be prioritized for "Premium Shipping" tiers to protect the $267k annual revenue stream.
+3. **Operational Cleanup:** **Grains/Cereals** should be reviewed for potential discontinuation or bundling to simplify supply chain complexity.
+
+
+
 
