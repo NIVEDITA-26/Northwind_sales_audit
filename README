@@ -15,3 +15,32 @@ Audit Type                                       Finding                        
 Date Integrity                     no records found with ShippedDate < OrderDate                  "Leads to true ""Fast Shipping"" metrics."
 Price Audit                          no records found with $0 Unit Price                       Represents no potential revenue leakage or unrecorded promos.
 Missing Data                        507 orders missing Region data                                     Makes geographic sales analysis incomplete.
+
+quadrantChart
+    title Product Portfolio Matrix: Northwind Traders
+    x-axis Low Volume --> High Volume
+    y-axis Low Average Order Value --> High Average Order Value
+    quadrant-1 Stars: Maintain & Invest
+    quadrant-2 Question Marks: Strategic Growth
+    quadrant-3 Dogs: Review or Divest
+    quadrant-4 Cash Cows: Maximize Cash Flow
+    "Beverages": [0.85, 0.75]
+    "Dairy Products": [0.80, 0.77]
+    "Meat/Poultry": [0.45, 0.95]
+    "Produce": [0.35, 0.77]
+    "Seafood": [0.75, 0.45]
+    "Confections": [0.70, 0.55]
+    "Grains/Cereals": [0.40, 0.52]
+    "Condiments": [0.48, 0.54]
+
+### Strategic Classification & Action Plan
+
+| Quadrant | Category | SQL-Based Evidence | Business Strategy |
+| :--- | :--- | :--- | :--- |
+| **Stars** | Beverages, Dairy | High Revenue + High AOV (> $750) | **Invest:** Priority stock allocation and premium marketing. |
+| **Question Marks** | Meat/Poultry, Produce | High AOV (> $770) but Low Volume | **Promote:** Launch cross-selling campaigns to increase order frequency. |
+| **Cash Cows** | Confections, Seafood | High Volume but lower AOV | **Optimize:** Maintain sales while reducing logistics/handling costs. |
+| **Dogs** | Grains/Cereals | Low Volume + Low AOV (< $550) | **Review:** Re-evaluate supplier contracts or consider bundling. |
+
+
+
