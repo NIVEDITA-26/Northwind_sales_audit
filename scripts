@@ -31,6 +31,108 @@ FROM customers
 GROUP BY CompanyName
 HAVING COUNT(*) > 1;
 
+-- Create a Cleaned Orders View
+
+CREATE VIEW vw_cleaned_orders AS
+SELECT 
+    OrderID, 
+    CustomerID, 
+    EmployeeID, 
+    OrderDate, 
+    RequiredDate, 
+    ShippedDate,
+    ShipVia,
+    Freight,
+    ShipCountry
+FROM orders
+-- Only include orders where dates make logical sense
+WHERE ShippedDate >= OrderDate OR ShippedDate IS NULL;
+
+-- Create a Cleaned Sales View
+
+CREATE OR REPLACE VIEW vw_cleaned_sales AS 
+SELECT 
+    od.OrderID, 
+    od.ProductID, 
+    p.ProductName, 
+    od.UnitPrice, 
+    od.Quantity, 
+    od.Discount,
+    -- Calculate actual revenue per line item
+    (od.UnitPrice * od.Quantity) * (1 - od.Discount) AS NetRevenue 
+FROM order_details od 
+JOIN products p ON od.ProductID = p.ProductID 
+WHERE od.UnitPrice > 0 AND od.Quantity > 0;
+
+-- Which product categories are generating the most net revenue?
+SELECT 
+    c.CategoryName,
+    ROUND(SUM(s.NetRevenue), 2) AS TotalRevenue,
+    COUNT(DISTINCT s.OrderID) AS TotalOrders,
+    ROUND(SUM(s.NetRevenue) / COUNT(DISTINCT s.OrderID), 2) AS AvgOrderValue
+FROM vw_cleaned_sales s
+JOIN products p ON s.ProductID = p.ProductID
+JOIN categories c ON p.CategoryID = c.CategoryID
+GROUP BY c.CategoryName
+ORDER BY TotalRevenue DESC;
+
+-- The "Late Shipping Rate" Query
+
+SELECT 
+    c.CategoryName,
+    COUNT(DISTINCT o.OrderID) AS TotalOrders,
+    SUM(CASE WHEN o.ShippedDate > o.RequiredDate THEN 1 ELSE 0 END) AS LateOrders,
+    ROUND(
+        (SUM(CASE WHEN o.ShippedDate > o.RequiredDate THEN 1 ELSE 0 END) * 100.0) / 
+        COUNT(DISTINCT o.OrderID), 2
+    ) AS LateShippingRatePercentage
+FROM vw_cleaned_orders o
+JOIN order_details od ON o.OrderID = od.OrderID
+JOIN products p ON od.ProductID = p.ProductID
+JOIN categories c ON p.CategoryID = c.CategoryID
+GROUP BY c.CategoryName
+ORDER BY LateShippingRatePercentage DESC;
+
+
+-- The "Global Audit Dashboard" Query
+
+WITH CategorySales AS (
+    SELECT 
+        c.CategoryName,
+        ROUND(SUM(s.NetRevenue), 2) AS TotalRevenue,
+        COUNT(DISTINCT s.OrderID) AS TotalOrders,
+        ROUND(SUM(s.NetRevenue) / COUNT(DISTINCT s.OrderID), 2) AS AvgOrderValue
+    FROM vw_cleaned_sales s
+    JOIN products p ON s.ProductID = p.ProductID
+    JOIN categories c ON p.CategoryID = c.CategoryID
+    GROUP BY c.CategoryName
+),
+CategoryShipping AS (
+    SELECT 
+        c.CategoryName,
+        ROUND((SUM(CASE WHEN o.ShippedDate > o.RequiredDate THEN 1 ELSE 0 END) * 100.0) / 
+        COUNT(DISTINCT o.OrderID), 2) AS LateRate
+    FROM vw_cleaned_orders o
+    JOIN order_details od ON o.OrderID = od.OrderID
+    JOIN products p ON od.ProductID = p.ProductID
+    JOIN categories c ON p.CategoryID = c.CategoryID
+    GROUP BY c.CategoryName
+)
+SELECT 
+    s.CategoryName,
+    s.TotalRevenue,
+    s.AvgOrderValue,
+    sh.LateRate,
+    -- Create a Risk Score (Higher revenue + Higher Late Rate = Higher Risk)
+    CASE 
+        WHEN s.TotalRevenue > 200000 AND sh.LateRate > 5 THEN 'CRITICAL RISK'
+        WHEN sh.LateRate > 5 THEN 'HIGH RISK'
+        ELSE 'MONITOR'
+    END AS AuditStatus
+FROM CategorySales s
+JOIN CategoryShipping sh ON s.CategoryName = sh.CategoryName
+ORDER BY s.TotalRevenue DESC;
+
 
 
 
